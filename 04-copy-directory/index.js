@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const process = require('process');
 const pathWay = path.resolve('../HTML-builder/04-copy-directory', 'files-copy')
 const pathCopy = path.resolve('../HTML-builder/04-copy-directory', 'files')
 
