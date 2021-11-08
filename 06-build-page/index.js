@@ -15,7 +15,7 @@ addDirectory(pathWay)
 function addDirectory(pathWay) {
     fs.mkdir(pathWay, {recursive: true}, err => {
         if(err)  {
-            console.log('Something does wrong')
+            // console.log('Something does wrong')
         }
     })
 }
@@ -37,7 +37,7 @@ function addData(pathCopy, pathWayAssets) {
         }
         
     });
-    console.log('Copying is completed');
+    // console.log('Copying is completed');
 }
     
 addData(pathCopy, pathWayAssets)
@@ -61,7 +61,7 @@ fs.readdir(pathCopyStyles, {withFileTypes: true}, function(err, items) {
             input.pipe(output);
         }
     }
-    console.log('Copying styles  is completed');
+    // console.log('Copying styles  is completed');
 });
 
 
@@ -76,41 +76,41 @@ function arrayAdd() {
         for(i in array) {
             if (array[i].match(/{{\w+}}/g)) {
                 aa = array[i].match(/{{\w+}}/g)
-                console.log(aa)
+                // console.log(aa)
                 arr1.push(aa[0].match(/\w+/g))
             }
             
         }
-         console.log(arr1)
+        //  console.log(arr1)
         let template 
 const stream = fs.createReadStream(pathTemp);
 let data1 = '';
 stream.on('data', partData => data1 += partData);
 stream.on('end', () => template = data1);
 stream.on('error', error => console.log('Error', error.message));
-console.log('components = ' + arr1)
+// console.log('components = ' + arr1)
 let components = arr1
-console.log('components = ' + components)
+// console.log('components = ' + components)
 components.forEach(component => {
-    console.log('component = ' + component[0])
-    console.log(`${pathComp}/${component[0]}`)
-    fs.readFile(`${pathComp}/${component[0]}.html`, "utf8", (err, content) => {
+    // console.log('component = ' + component[0])
+    // console.log(`${pathComp}/${component[0]}`)
+     fs.readFile(`${pathComp}/${component[0]}.html`, "utf8", async (err, content) => {
         if (err) {
             throw err
         }
         let name = path.parse(component[0]).name
-        console.log(name)
-        console.log(content)
-        console.log(template)
-console.log(arr1[0][0])
-        template = template.replace(new RegExp(`{{${name}}}`), content)
+        // console.log(name)
+        // console.log(content)
+        // console.log(template)
+// console.log(arr1[0][0])
+        template = await template.replace(new RegExp(`{{${name}}}`), content)
         fs.writeFile(`${pathWay}/index.html`, template, (err) => {
             if (err) throw err
         })
     })
 })
     });
-     console.log(arr1)
+    //  console.log(arr1)
 }
 arrayAdd()
 
@@ -120,22 +120,23 @@ fs.readFile(pathWayIndex, {withFileTypes: true}, function(err, data) {
     let input2
             input2 = fs.createReadStream(pathTemp);
             input2.pipe(output2);
-    console.log('Copying is completed');
+    // console.log('Copying is completed');
 });
 
 
-console.log(pathComp)
-console.log('index = ' + pathWayIndex)
+// console.log(pathComp)
+// console.log('index = ' + pathWayIndex)
     fs.readdir(pathComp, {withFileTypes: true}, function(err, items) {  
         let input1
+        
         for (let i=0; i<items.length; i++) {
             file = pathComp + '\\' + items[i].name
-            console.log('file = ' + file);
+            // console.log('file = ' + file);
             if (items[i].isFile() && path.parse(file).ext == '.html') {
                 input1 = fs.createReadStream(file);
             }
         }
-        console.log('Copying is completed');
+        // console.log('Copying is completed');
     });
 
 
