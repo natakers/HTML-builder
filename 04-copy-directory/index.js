@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const pathWay = path.resolve('../HTML-builder/04-copy-directory', 'files-copy')
-const pathCopy = path.resolve('../HTML-builder/04-copy-directory', 'files')
+const pathWay = path.join(__dirname, 'files-copy')
+const pathCopy = path.resolve(__dirname, 'files')
 
 // if (pathWay) {
     fs.readdir(pathWay, {withFileTypes: true}, function(err, items1) {   

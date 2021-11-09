@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const pathWay = path.resolve('../HTML-builder/03-files-in-folder/secret-folder')
+const pathWay = path.join(__dirname, 'secret-folder')
 
 
 fs.readdir(pathWay, {withFileTypes: true}, function(err, items) {   

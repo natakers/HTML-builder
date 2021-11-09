@@ -1,7 +1,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const pathWay = path.resolve('../HTML-builder/01-read-file', 'text.txt')
+const pathWay = path.join(__dirname, 'text.txt')
 const stream = fs.createReadStream(pathWay);
 let data = '';
 stream.on('data', partData => data += partData);

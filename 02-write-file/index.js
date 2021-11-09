@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const process = require('process');
-const pathWay = path.resolve('../HTML-builder/02-write-file', 'testFile.txt')
+const pathWay = path.join(__dirname, 'testFile.txt')
 
 fs.open(pathWay, 'w', (err) => {
     if(err) throw err;

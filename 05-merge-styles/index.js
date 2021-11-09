@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const pathWay = path.resolve('../HTML-builder/05-merge-styles/project-dist', 'bundle.css')
-const pathCopy = path.resolve('../HTML-builder/05-merge-styles', 'styles')
+const pathWay = path.resolve(__dirname, 'project-dist', 'bundle.css')
+const pathCopy = path.resolve(__dirname, 'styles')
 fs.open(pathWay, 'w', (err) => {
     if(err) throw err;
 });
