@@ -25,12 +25,16 @@ addDirectory(pathWayAssets)
 function addData(pathCopy, pathWayAssets) {
     fs.readdir(pathCopy, {withFileTypes: true}, function(err, items) {  
         for (let i=0; i<items.length; i++) {
+            let path1 = path.join(`${pathWayAssets}`, `${items[i].name}`)
+            let path2 = path.join(`${pathCopy}`, `${items[i].name}`) 
             if (items[i].isDirectory()) {
-                addDirectory(pathWayAssets + '\\' + items[i].name)
-                addData(pathCopy + '\\' + items[i].name, pathWayAssets + '\\' + items[i].name)
+                
+                addDirectory(path1)
+                
+                addData(path2, path1)
             }
             if (items[i].isFile()) {
-                fs.copyFile(pathCopy + '\\' + items[i].name, pathWayAssets + '\\' + items[i].name, err => {
+                fs.copyFile(path2, path1, err => {
                     if(err) throw err; 
                  });
             }
@@ -55,7 +59,7 @@ fs.readdir(pathCopyStyles, {withFileTypes: true}, function(err, items) {
     const output = fs.createWriteStream(pathWayStyles);
     let input
     for (let i=0; i<items.length; i++) {
-        file = pathCopyStyles + '\\' + items[i].name
+        file = path.join(`${pathCopyStyles}`, `${items[i].name}`)
         if (items[i].isFile() && path.parse(file).ext == '.css') {
             input = fs.createReadStream(file);
             input.pipe(output);
@@ -94,7 +98,8 @@ let components = arr1
 components.forEach(component => {
     // console.log('component = ' + component[0])
     // console.log(`${pathComp}/${component[0]}`)
-     fs.readFile(`${pathComp}/${component[0]}.html`, "utf8", async (err, content) => {
+    let file1 = path.join(`${pathComp}`, `${component[0]}`)
+     fs.readFile(`${file1}.html`, "utf8", async (err, content) => {
         if (err) {
             throw err
         }
@@ -104,7 +109,8 @@ components.forEach(component => {
         // console.log(template)
 // console.log(arr1[0][0])
         template = await template.replace(new RegExp(`{{${name}}}`), content)
-        fs.writeFile(`${pathWay}/index.html`, template, (err) => {
+        let file2 = path.join(`${pathWay}`, 'index.html')
+        fs.writeFile(file2, template, (err) => {
             if (err) throw err
         })
     })
@@ -130,8 +136,8 @@ fs.readFile(pathWayIndex, {withFileTypes: true}, function(err, data) {
         let input1
         
         for (let i=0; i<items.length; i++) {
-            file = pathComp + '\\' + items[i].name
-            // console.log('file = ' + file);
+
+            file = path.join(`${pathComp}`, `${items[i].name}`)
             if (items[i].isFile() && path.parse(file).ext == '.html') {
                 input1 = fs.createReadStream(file);
             }

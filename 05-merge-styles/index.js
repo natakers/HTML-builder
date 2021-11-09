@@ -10,7 +10,7 @@ fs.readdir(pathCopy, {withFileTypes: true}, function(err, items) {
     const output = fs.createWriteStream(pathWay);
     let input
     for (let i=0; i<items.length; i++) {
-        file = pathCopy + '\\' + items[i].name
+        file = path.join(`${pathCopy}`, `${items[i].name}`)
         if (items[i].isFile() && path.parse(file).ext == '.css') {
             input = fs.createReadStream(file);
             input.pipe(output);
