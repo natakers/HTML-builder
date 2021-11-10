@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const fsPromises = require('fs/promises')
 let pathWay = path.resolve(__dirname, 'project-dist')
 const pathWayAssets = path.resolve(__dirname, 'project-dist', 'assets')
 const pathCopy = path.resolve(__dirname, 'assets')
@@ -12,44 +13,89 @@ let arr1 = []
 
 
 addDirectory(pathWay)
-function addDirectory(pathWay) {
-    fs.mkdir(pathWay, {recursive: true}, err => {
+addDirectory(pathWayAssets)
+//  function addDirectory(pathWay) {
+    // fs.mkdir( pathWay, {recursive: true}, err => {
+    //     if(err)  {
+    //     }
+    //      console.log('dir done ' + pathWay)
+    // })
+// }
+
+ function addDirectory(pathWay) {
+    // fsPromises
+     fs.mkdir( pathWay, {recursive: true}, err => {
         if(err)  {
         }
+         console.log('dir done1 ' + pathWay)
     })
 }
-addDirectory(pathWayAssets)
+
+// (async () => {
+//     if(!fs.existsSync(outputPath)){
+//       debug("Folder not exsists! path: "+outputPath)
+//       await Promise.all(mkdir(outputPath))
+//     }
+//     res.send('<h1>Hello world!</h1>')
+//   })()
+
+// fs.mkdir(pathWayAssets, {recursive: true}, err => {
+//     if(err)  {
+//     }
+//      console.log('dir done ' + pathWayAssets)
+// })
+// }/
+
 
     // надо скопировать директории и файлы
-function addData(pathCopy, pathWayAssets) {
-    fs.readdir(pathCopy, {withFileTypes: true}, function(err, items) {  
-        for (let i=0; i<items.length; i++) {
-            let path1 = path.join(`${pathWayAssets}`, `${items[i].name}`)
-            let path2 = path.join(`${pathCopy}`, `${items[i].name}`) 
-            if (items[i].isDirectory()) {
-                
-                addDirectory(path1)
-                
-                addData(path2, path1)
+// ( () => {
+    
+ async function addData(pathCopy, pathWayAssets) {
+   await fs.promises
+        .readdir( pathCopy, {withFileTypes: true}) 
+        .then(async items =>  {
+            console.log(' прочитали дир')
+            // for (let i=0; i<items.length; i++) {
+                for (let item of items) {
+                let path1 =  path.join(`${pathWayAssets}`, `${item.name}`)
+                let path2 = path.join(`${pathCopy}`, `${item.name}`) 
+                if (item.isDirectory()) {
+                    console.log('хочу создать дир')
+                    // addDirectory(path1)
+                    await fs.promises.mkdir(path1, {recursive: true})
+                    
+                    //  addDirectory(path1)
+                    
+                    addData(path2, path1)
+                }
+                if (item.isFile()) {
+                    fs.copyFile( path2, path1, err => {
+                        if(err) throw err; 
+                     });
+                     console.log('file done ' + item.name)
+                }
             }
-            if (items[i].isFile()) {
-                fs.copyFile(path2, path1, err => {
-                    if(err) throw err; 
-                 });
-            }
-        }   
-    });
-}
+
+        })       
+        // });
+    }
+// })()
+ 
+
+
+
     
 addData(pathCopy, pathWayAssets)
 
-// сорка стилей
+// сборка стилей
 fs.open(pathWayStyles, 'w', (err) => {
     if(err) throw err;
+    console.log('file done' + pathWayStyles)
 });
 
 fs.open(pathWayIndex, 'w', (err) => {
     if(err) throw err;
+    console.log('file done' + pathWayIndex)
 });
 
 fs.readdir(pathCopyStyles, {withFileTypes: true}, function(err, items) {  
