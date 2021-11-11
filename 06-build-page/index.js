@@ -121,11 +121,19 @@ function arrayAdd() {
         array = data.toString().split("\n");
         for(i in array) {
             if (array[i].match(/{{\w+}}/g)) {
+                console.log(array[i].match(/{{\w+}}/g))
                 aa = array[i].match(/{{\w+}}/g)
-                arr1.push(aa[0].match(/\w+/g))
+                console.log('aa')
+                console.log(aa)
+                aa.forEach(item => {
+                    arr1.push(item.match(/\w+/g))
+                })
+                console.log(aa[0].match(/\w+/gi))
+                // arr1.push(aa[0].match(/\w+/g))
             }
             
         }
+        console.log(arr1)
         let template 
 const stream = fs.createReadStream(pathTemp);
 let data1 = '';
